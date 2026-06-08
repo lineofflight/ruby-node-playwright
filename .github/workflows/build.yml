@@ -1,0 +1,39 @@
+name: Build image
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # Weekly rebuild to pick up base-image security patches.
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    # GitHub-hosted so the build doesn't load the self-hosted runners that
+    # consume the image. Runners are Linux/X64, so a single linux/amd64 build.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ghcr.io/lineofflight/ruby-node-playwright:latest
+            ghcr.io/lineofflight/ruby-node-playwright:${{ github.sha }}
