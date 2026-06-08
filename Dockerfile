@@ -19,6 +19,11 @@ RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && rm -rf /var/lib/apt/lists/*
 
-# Playwright chromium + its OS dependencies. Pinned to the playwright version
-# consumers resolve to; keep in sync to avoid a browser re-download at job time.
+# Playwright chromium + its OS dependencies. Install to a fixed, HOME-independent
+# path and expose it via ENV so the baked browsers are found at job time —
+# GitHub Actions container jobs run with HOME=/github/home, not /root, so the
+# default ~/.cache/ms-playwright location would otherwise miss. This mirrors the
+# convention used by the official Playwright images. Pinned to the playwright
+# version consumers resolve to; keep in sync to avoid a re-download at job time.
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 RUN npx --yes playwright@1.60.0 install --with-deps chromium
