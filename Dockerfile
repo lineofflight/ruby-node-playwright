@@ -6,7 +6,7 @@
 # the consuming repo.
 #
 # Published to ghcr.io/lineofflight/ruby-node-playwright by .github/workflows/build.yml.
-FROM rubylang/ruby:4.0.5-dev-noble
+FROM rubylang/ruby:4.0.6-dev-noble
 
 # System packages for building common native gems (pg, psych, ...).
 RUN apt-get update \
@@ -26,4 +26,4 @@ RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
 # convention used by the official Playwright images. Pinned to the playwright
 # version consumers resolve to; keep in sync to avoid a re-download at job time.
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-RUN npx --yes playwright@1.60.0 install --with-deps chromium
+RUN npx --yes playwright@1.61.1 install --with-deps chromium
