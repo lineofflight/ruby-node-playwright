@@ -26,4 +26,4 @@ RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
 # convention used by the official Playwright images. Pinned to the playwright
 # version consumers resolve to; keep in sync to avoid a re-download at job time.
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-RUN npx --yes playwright@1.61.1 install --with-deps chromium
+RUN npx --yes playwright@1.62.1 install --with-deps chromium
