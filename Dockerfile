@@ -6,7 +6,7 @@
 # the consuming repo.
 #
 # Published to ghcr.io/lineofflight/ruby-node-playwright by .github/workflows/build.yml.
-FROM rubylang/ruby:4.0.8-dev-noble
+FROM rubylang/ruby:4.0.9-dev-noble
 
 # System packages for building common native gems (pg, psych, ...).
 RUN apt-get update \
